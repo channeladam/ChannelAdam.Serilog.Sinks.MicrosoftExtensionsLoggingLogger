@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <Authors>Adam Craven</Authors>
+    <Company></Company>
+    <Description>Serilog Sink for the Microsoft.Extensions.Logging Logger</Description>
+    <Copyright>Copyright 2017 Adam Craven</Copyright>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/channeladam/ChannelAdam.Serilog.Sinks.MicrosoftExtensionsLoggingLogger</PackageProjectUrl>
+    <PackageIconUrl>https://devzone.channeladam.com/img/channeladam/channeladam-logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/channeladam/ChannelAdam.Serilog.Sinks.MicrosoftExtensionsLoggingLogger</RepositoryUrl>
+    <PackageTags>Serilog, Sinks, Microsoft.Extensions.Logging</PackageTags>
+    <PackageReleaseNotes>1.0.0 - Initial release.</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" />
+    <PackageReference Include="Serilog" Version="2.4.0" />
+  </ItemGroup>
+
+</Project>
