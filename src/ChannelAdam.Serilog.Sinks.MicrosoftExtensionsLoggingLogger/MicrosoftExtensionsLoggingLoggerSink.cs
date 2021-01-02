@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="MicrosoftExtensionsLoggingLoggerSink.cs">
-//     Copyright (c) 2017 Adam Craven. All rights reserved.
+//     Copyright (c) 2017-2021 Adam Craven. All rights reserved.
 // </copyright>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,81 +67,79 @@ namespace ChannelAdam.Serilog.Sinks.MicrosoftExtensionsLoggingLogger
         /// <param name="logEvent">The log event to write.</param>
         public void Emit(LogEvent logEvent)
         {
-            using (var sw = new StringWriter())
+            using var sw = new StringWriter();
+            _formatter.Format(logEvent, sw);
+            var message = sw.ToString();
+
+            var exception = logEvent.Exception;
+
+            switch (logEvent.Level)
             {
-                _formatter.Format(logEvent, sw);
-                var message = sw.ToString();
+                case LogEventLevel.Verbose:
+                    if (exception == null)
+                    {
+                        _frameworkLogger.LogTrace(message);
+                    }
+                    else
+                    {
+                        _frameworkLogger.LogTrace(GetHashCode(message, exception, 0), exception, message);
+                    }
+                    break;
 
-                var exception = logEvent.Exception;
+                case LogEventLevel.Debug:
+                    if (exception == null)
+                    {
+                        _frameworkLogger.LogDebug(message);
+                    }
+                    else
+                    {
+                        _frameworkLogger.LogDebug(GetHashCode(message, exception, 0), exception, message);
+                    }
+                    break;
 
-                switch (logEvent.Level)
-                {
-                    case LogEventLevel.Verbose:
-                        if (exception == null)
-                        {
-                            _frameworkLogger.LogTrace(message);
-                        }
-                        else
-                        {
-                            _frameworkLogger.LogTrace(GetHashCode(message, exception, 0), exception, message);
-                        }
-                        break;
+                case LogEventLevel.Warning:
+                    if (exception == null)
+                    {
+                        _frameworkLogger.LogWarning(message);
+                    }
+                    else
+                    {
+                        _frameworkLogger.LogWarning(GetHashCode(message, exception, 0), exception, message);
+                    }
+                    break;
 
-                    case LogEventLevel.Debug:
-                        if (exception == null)
-                        {
-                            _frameworkLogger.LogDebug(message);
-                        }
-                        else
-                        {
-                            _frameworkLogger.LogDebug(GetHashCode(message, exception, 0), exception, message);
-                        }
-                        break;
+                case LogEventLevel.Error:
+                    if (exception == null)
+                    {
+                        _frameworkLogger.LogError(message);
+                    }
+                    else
+                    {
+                        _frameworkLogger.LogError(GetHashCode(message, exception, 0), exception, message);
+                    }
+                    break;
 
-                    case LogEventLevel.Warning:
-                        if (exception == null)
-                        {
-                            _frameworkLogger.LogWarning(message);
-                        }
-                        else
-                        {
-                            _frameworkLogger.LogWarning(GetHashCode(message, exception, 0), exception, message);
-                        }
-                        break;
+                case LogEventLevel.Fatal:
+                    if (exception == null)
+                    {
+                        _frameworkLogger.LogCritical(message);
+                    }
+                    else
+                    {
+                        _frameworkLogger.LogCritical(GetHashCode(message, exception, 0), exception, message);
+                    }
+                    break;
 
-                    case LogEventLevel.Error:
-                        if (exception == null)
-                        {
-                            _frameworkLogger.LogError(message);
-                        }
-                        else
-                        {
-                            _frameworkLogger.LogError(GetHashCode(message, exception, 0), exception, message);
-                        }
-                        break;
-
-                    case LogEventLevel.Fatal:
-                        if (exception == null)
-                        {
-                            _frameworkLogger.LogCritical(message);
-                        }
-                        else
-                        {
-                            _frameworkLogger.LogCritical(GetHashCode(message, exception, 0), exception, message);
-                        }
-                        break;
-
-                    default: // LogEventLevel.Information or other
-                        if (exception == null)
-                        {
-                            _frameworkLogger.LogInformation(message);
-                        }
-                        else
-                        {
-                            _frameworkLogger.LogInformation(GetHashCode(message, exception, 0), exception, message);
-                        }
-                        break;
-                }
+                default: // LogEventLevel.Information or other
+                    if (exception == null)
+                    {
+                        _frameworkLogger.LogInformation(message);
+                    }
+                    else
+                    {
+                        _frameworkLogger.LogInformation(GetHashCode(message, exception, 0), exception, message);
+                    }
+                    break;
             }
         }
 

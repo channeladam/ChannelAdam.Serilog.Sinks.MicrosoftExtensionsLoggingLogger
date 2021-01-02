@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="MicrosoftExtensionsLoggingLoggerConfigurationExtensions.cs">
-//     Copyright (c) 2017 Adam Craven. All rights reserved.
+//     Copyright (c) 2017-2021 Adam Craven. All rights reserved.
 // </copyright>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -113,8 +113,8 @@ namespace ChannelAdam.Serilog.Sinks.MicrosoftExtensionsLoggingLogger
             LogEventLevel restrictedToMinimumLevel,
             Microsoft.Extensions.Logging.ILogger frameworkLogger,
             string messageFormatTemplate,
-            IFormatProvider formatProvider,
-            LoggingLevelSwitch levelSwitch)
+            IFormatProvider? formatProvider,
+            LoggingLevelSwitch? levelSwitch)
         {
             if (sinkConfiguration == null) throw new ArgumentNullException(nameof(sinkConfiguration));
             if (frameworkLogger == null) throw new ArgumentNullException(nameof(frameworkLogger));
